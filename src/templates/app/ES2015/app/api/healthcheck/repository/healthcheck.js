@@ -1,14 +1,14 @@
 const _ = require('lodash');
 const oracledb = require('oracledb');
-const db = require('../../framework/data-access');
-const Sql = require('../../framework/sql');
+const db = require('../../../framework/data-access');
+const Sql = require('../../../framework/sql');
 
 const sql = new Sql('app/core/sql');
 
 const getSiteQuery = `SELECT 1 FROM DUAL`;
 
-class SiteRepository {
-  getSite(locale, requestId) {
+class HealthcheckRepository {
+  healthcheck(locale, requestId) {
     Logger.info('repository::site', 'get site info', locale, requestId);
     return db.execute(getSiteQuery, {}, {}, locale, requestId)
       .then((result) => {
@@ -19,4 +19,4 @@ class SiteRepository {
   }  
 }
 
-module.exports = new SiteRepository();
+module.exports = new HealthcheckRepository();

@@ -27,15 +27,15 @@ export default async (name, options = {}) => {
       },
       {
         type: 'input',
-        name: 'desc',
+        name: 'description',
         message: 'description:',
         validate: name => !_.isEmpty(name)
       },
       {
         type: 'input',
         name: 'version',
-        message: 'version:',
-        validate: name => !_.isEmpty(name)
+        message: 'version (1.0.0):',
+        default: '1.0.0'
       },
       {
         type: 'input',
@@ -79,7 +79,7 @@ export default async (name, options = {}) => {
     app.name = name;
     app.version = answers.version;
     app.template = answers.template;
-    app.description = answers.desc;
+    app.description = answers.description;
     app.baseUrl = answers.url;
     app.db = {
       provider: answers.dbProvider,
@@ -96,15 +96,14 @@ export default async (name, options = {}) => {
 const generate = async (app) => {
   const tokens = {
     APP_NAME: app.name,
-    APP_DESC: app.desc,
+    APP_DESC: app.description,
     APP_VERSION: app.version,
     DB_USERNAME: app.db.connection.username,
     DB_PASSWORD: app.db.connection.password,
     DB_DATASOURCE: app.db.connection.host,
     DB_PROVIDER_LIB: app.db.provider === 'Oracle' ? '"oracledb": "^2.2.0",' : '',
   };
-  console.log('calling');
-  console.log(path.join(__dirname, `./../../src/templates/app/${app.template}`));
-  console.log(path.join(process.cwd(), `./${app.name}`));
-  await template.copyFolder(path.join(__dirname, `./../../../src/templates/app/${app.template}`), path.join(process.cwd(), `./${app.name}`), tokens);
+  await template.copyFolder(path.join(__dirname, `./../../../src/templates/app/${app.template}`),
+    path.join(process.cwd(), `./${app.name}`),
+    tokens);
 }

@@ -13,7 +13,7 @@ const middlewares = require('../../core/middlewares');
 const customValidators = require('../../framework/validation/customValidators');
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
-
+const routeGen = require('@aspirejo/express-route-generator');
 
 /**
  * Initialize application middleware
@@ -109,11 +109,6 @@ function initErrorRoutes(app) {
 module.exports.init = () => {
   Logger.info('app::init', 'express app init');
 
-  // eslint-disable-next-line global-require, import/no-dynamic-require
-  const versioningConfig = require('../../../configuration/versioning');
-  const routingMap = versioningConfig.config;
-  const { globalMiddlewares } = versioningConfig;
-
   // Initialize express app
   const app = express();
 
@@ -122,7 +117,13 @@ module.exports.init = () => {
 
   // Initialize Express middleware
   initMiddleware(app);
-
+  
+  // generate routes
+  const config = {
+    pattern: `${path.resolve(__dirname, '../..')}/**/controllers/**/_*.js`,
+  };
+  routeGen.generate(app, config);
+  
   // Initialize error routes
   initErrorRoutes(app);
 

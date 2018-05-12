@@ -5,7 +5,6 @@ const httpStatusCodes = require('../http/statusCodes');
 const logger = require('../logger');
 const validation = require('../validation');
 const helper = require('../helper');
-const lookups = require('./lookups');
 
 function initEnvironmentVariables() {
   /* http */
@@ -38,15 +37,7 @@ module.exports.init = function init(callback) {
 module.exports.start = function start() {
   this.init((app, config) => {
     Logger.info('app::init', 'starting node app', 'null', 'null', null);
-    try {
-      Logger.info('app::init', 'initializing lookups...', 'null', 'null', null);
-      lookups.init();
-      Logger.info('app::init', 'lookups initialized', 'null', 'null', null);
-    } catch (ex) {
-      /* eslint-disable no-console */
-      console.error(ex);
-      process.exit(1);
-    }
+    
     // Start the app by listening on <port>
     app.listen(config.port, (error) => {
       Logger.info('app::init', 'node app started', 'null', 'null', null);
