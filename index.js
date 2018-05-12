@@ -6,8 +6,8 @@ const p = require('./../package.json');
 
 program
   .version(p.version, '-v, --version')
-  .description(`\x1b[32m
-      ASPIRE
+  .description(`\x1b[34m
+      ASPIRE CLI
     \x1b[0m
   ${p.description}`)
   .usage('<cmd> [options]');
@@ -19,17 +19,11 @@ program
   .description('create new project')
   .action((name, options) => generators.app(name, options))
 
-
-program
-  .command('setup [env]')
-  .description('run setup commands for all envs')
-  .option("-s, --setup_mode [mode]", "Which setup mode to use")
-  .action(function (env, options) {
-    var mode = options.setup_mode || "normal";
-    env = env || 'all';
-    console.log('setup for %s env(s) with %s mode', env, mode);
-  });
-
+program.on('command:*', function () {
+  console.log(process.cwd())
+  console.log('\x1b[31mInvalid command: %s\nSee --help for a list of available commands.\x1b[0m', program.args.join(' '));
+  process.exit(1);
+});
 
 program.parse(process.argv);
 

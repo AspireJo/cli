@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log,./src/templates --copy-files",
     "start": "npm run build && node dist/index.js",
     "dev": "npm run build && npm link"
   },
@@ -44,6 +44,7 @@
     "glob": "^7.1.2",
     "glob-promise": "^3.4.0",
     "inquirer": "^5.2.0",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "string-template": "^1.0.0"
   }
 }
