@@ -4,5 +4,11 @@ CLI for AspireJo
 ## run 
 > `npm start`
 
+## link
+> `npm link`
+
+## commands
+> `aspire` or `asp`
+
 ## version 
-> `node dist/index.js -V`
+> `aspire -V`

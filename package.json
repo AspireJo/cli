@@ -2,14 +2,17 @@
   "name": "@aspirejo/cli",
   "version": "0.0.1",
   "description": "CLI for creating AspireJo standard projects",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start": "npm run build && node dist/index.js"
   },
   "preferGlobal": true,
-  "bin": "./dist/index.js",
+  "bin": {
+    "aspire": "./dist/index.js",
+    "asp": "./dist/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AspireJo/cli.git"
