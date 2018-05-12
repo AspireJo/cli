@@ -1,0 +1,33 @@
+{
+  "name": "@aspirejo/cli",
+  "version": "0.0.1",
+  "description": "CLI for creating AspireJo standard projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "npm run build && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AspireJo/cli.git"
+  },
+  "keywords": [
+    "aspirejo",
+    "cli",
+    "node",
+    "express",
+    "swagger"
+  ],
+  "author": "AspireJo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AspireJo/cli/issues"
+  },
+  "homepage": "https://github.com/AspireJo/cli#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "rimraf": "^2.6.2"
+  }
+}
