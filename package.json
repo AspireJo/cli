@@ -8,6 +8,8 @@
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start": "npm run build && node dist/index.js"
   },
+  "preferGlobal": true,
+  "bin": "./dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AspireJo/cli.git"
@@ -32,6 +34,7 @@
   },
   "dependencies": {
     "cli": "^1.0.1",
+    "commander": "^2.15.1",
     "inquirer": "^5.2.0"
   }
 }

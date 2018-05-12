@@ -1,2 +1,16 @@
+import program from "commander";
+const p = require('./../package.json');
 
-console.log('CLI is live!');
+program
+  .version(p.version)
+  .description(p.description);
+
+
+program
+  .command('version')
+  .alias('v')
+  .description('CLI version')
+  .action(() => console.log(version));
+  
+
+program.parse(process.argv);
