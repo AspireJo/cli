@@ -3,6 +3,11 @@ const _ = require('lodash');
 const pools = require('../../../framework/data-access/pool');
 const os = require('os');
 
+/**
+ * API healthcheck
+ * @returns {healthcheck}
+ * @property {string} route - /healthcheck
+ */
 module.exports.controller = (req, res) => {
   Logger.info('controller::Healthycheck', 'start healthycheck', 'US', req.id);
   const timeOffset = Math.abs((new Date()).getTimezoneOffset());

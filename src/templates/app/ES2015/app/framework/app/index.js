@@ -30,14 +30,16 @@ function initEnvironmentVariables() {
 
 module.exports.init = function init(callback) {
   initEnvironmentVariables();
-  const app = express.init();
-  if (callback) callback(app, configuration);
+  express.init()
+    .then((app) => {
+      if (callback) callback(app, configuration);
+    });
 };
 
 module.exports.start = function start() {
   this.init((app, config) => {
     Logger.info('app::init', 'starting node app', 'null', 'null', null);
-    
+
     // Start the app by listening on <port>
     app.listen(config.port, (error) => {
       Logger.info('app::init', 'node app started', 'null', 'null', null);

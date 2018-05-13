@@ -19,10 +19,7 @@ export default async (name, options = {}) => {
           {
             name: 'ES2015',
             checked: true
-          },
-          {
-            name: 'ES6'
-          },
+          }
         ]
       },
       {
@@ -41,6 +38,12 @@ export default async (name, options = {}) => {
         type: 'input',
         name: 'url',
         message: 'base url:',
+        validate: name => !_.isEmpty(name)
+      },
+      {
+        type: 'input',
+        name: 'host',
+        message: 'host:',
         validate: name => !_.isEmpty(name)
       },
       {
@@ -88,6 +91,9 @@ export default async (name, options = {}) => {
         username: answers.dbUser,
         password: answers.dbPassword
       }
+    };
+    app.doc = {
+      host : answers.host,
     }
   }
   await generate(app);
@@ -102,6 +108,7 @@ const generate = async (app) => {
     DB_PASSWORD: app.db.connection.password,
     DB_DATASOURCE: app.db.connection.host,
     DB_PROVIDER_LIB: app.db.provider === 'Oracle' ? '"oracledb": "^2.2.0",' : '',
+    DOC_HOST : app.doc.host
   };
   await template.copyFolder(path.join(__dirname, `./../../../src/templates/app/${app.template}`),
     path.join(process.cwd(), `./${app.name}`),

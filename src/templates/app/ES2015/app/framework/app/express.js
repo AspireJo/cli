@@ -14,6 +14,8 @@ const customValidators = require('../../framework/validation/customValidators');
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const routeGen = require('@aspirejo/express-route-generator');
+const docGen = require('@aspirejo/swagger-generator-express');
+const docConfig = require('./../../../configuration/documentation');
 
 /**
  * Initialize application middleware
@@ -46,9 +48,9 @@ function initMiddleware(app) {
   app.use(middlewares.morganLogger());
 
   // swagger docs viewer
-  const docsFile = path.join(__dirname, './../documentation/output.yml');
+  const docsFile = `${docConfig.output.location}/output.${docConfig.output.format}`
   // eslint-disable-next-line global-require, import/no-dynamic-require
-  if (fs.existsSync(docsFile)) app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require(docsFile), { explorer: true }));
+  if (fs.existsSync(docsFile)) app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require(docsFile), { explorer: true }));  
   Logger.info('app::initMiddleware', 'end express app init middleware');
 }
 
@@ -109,23 +111,29 @@ function initErrorRoutes(app) {
 module.exports.init = () => {
   Logger.info('app::init', 'express app init');
 
-  // Initialize express app
-  const app = express();
 
-  // Initialize Helmet security headers
-  initHelmetHeaders(app);
+  return docGen.generate(docConfig)
+    .then(() => {
+      // Initialize express app
+      const app = express();
 
-  // Initialize Express middleware
-  initMiddleware(app);
-  
-  // generate routes
-  const config = {
-    pattern: `${path.resolve(__dirname, '../..')}/**/controllers/**/_*.js`,
-  };
-  routeGen.generate(app, config);
-  
-  // Initialize error routes
-  initErrorRoutes(app);
+      // Initialize Helmet security headers
+      initHelmetHeaders(app);
 
-  return app;
+      // Initialize Express middleware
+      initMiddleware(app);
+
+      // generate routes
+      const config = {
+        pattern: `${path.resolve(__dirname, '../..')}/**/controllers/**/_*.js`,
+      };
+      routeGen.generate(app, config);
+
+      // Initialize error routes
+      initErrorRoutes(app);
+
+      return app;
+
+    });
+
 };
